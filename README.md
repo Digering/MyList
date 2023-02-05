@@ -1,6 +1,6 @@
 package MyListPapka;
 
-public class Main {
+public class Main
     public static void main(String[] args) 
 
         MyList list = new MyList();
@@ -15,7 +15,7 @@ public class Main {
         list.remove(19);
 
         list.print();
-    }
+    
 
 
 
@@ -83,5 +83,5 @@ public class MyList
             Newposition = Newposition.next;
             System.out.println(Newposition.data);
         }
-    }
+    
 
