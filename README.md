@@ -33,7 +33,7 @@ public class MyList
         public int data;
         public New next; // ссылка на следующий элемент
 
-        public New(int data){ // конструктор Node
+        public New(int data){ // конструктор New
             this.data = data;
             next = null;
         }
@@ -46,8 +46,8 @@ public class MyList
         if(head == null){ // если голова пустая
             head = Newdata; // вставляем в нее элемент
         }else{
-            while (Newposition.next != null){ // если currentNode имеет ссылку на след. элемент
-                Newposition = Newposition.next; // currentNode переходит к след. элементу
+            while (Newposition.next != null){ // если Newposition имеет ссылку на след. элемент
+                Newposition = Newposition.next; // Newposition переходит к след. элементу
             }
             Newposition.next = Newdata; // next ссылается на элемент data
         }
@@ -57,8 +57,8 @@ public class MyList
         New Newposition = head;
         New TimeNew = null;
 
-        while(Newposition.next != null){ // если currentNode имеет ссылку на след. элемент
-            if (Newposition.data == data){ // если currentNode имеет элемент равный data
+        while(Newposition.next != null){ // если Newposition имеет ссылку на след. элемент
+            if (Newposition.data == data){ // если Newposition имеет элемент равный data
                 if(head == Newposition){ // если элемент data находится в голове
                     head = Newposition.next; // то головой становится след. элемент
                 }else{
