@@ -23,48 +23,48 @@ package MyListPapka;
 
 public class MyList 
 
-    public New head; // голова списка
+    public New head;                                // голова списка
 
-    public MyList(){ // конструктор MyList
-        head = null; // делаем голову списка изночально пустой
+    public MyList(){                                // конструктор MyList
+        head = null;                                // делаем голову списка изночально пустой
     }
 
     public class New{
         public int data;
-        public New next; // ссылка на следующий элемент
+        public New next;                            // ссылка на следующий элемент
 
-        public New(int data){ // конструктор New
+        public New(int data){                       // конструктор New
             this.data = data;
             next = null;
         }
     }
 
-    public void add(int data){ // добавляем элемент
+    public void add(int data){                      // добавляем элемент
         New Newdata = new New(data);
         New Newposition = head;
 
-        if(head == null){ // если голова пустая
-            head = Newdata; // вставляем в нее элемент
+        if(head == null){                           // если голова пустая
+            head = Newdata;                         // вставляем в нее элемент
         }else{
-            while (Newposition.next != null){ // если Newposition имеет ссылку на след. элемент
-                Newposition = Newposition.next; // Newposition переходит к след. элементу
+            while (Newposition.next != null){       // если Newposition имеет ссылку на след. элемент
+                Newposition = Newposition.next;     // Newposition переходит к след. элементу
             }
-            Newposition.next = Newdata; // next ссылается на элемент data
+            Newposition.next = Newdata;             // next ссылается на элемент data
         }
     }
 
-    public void remove(int data){ // удаляем элемент data
+    public void remove(int data){                   // удаляем элемент data
         New Newposition = head;
         New TimeNew = null;
 
-        while(Newposition.next != null){ // если Newposition имеет ссылку на след. элемент
-            if (Newposition.data == data){ // если Newposition имеет элемент равный data
-                if(head == Newposition){ // если элемент data находится в голове
-                    head = Newposition.next; // то головой становится след. элемент
+        while(Newposition.next != null){            // если Newposition имеет ссылку на след. элемент
+            if (Newposition.data == data){          // если Newposition имеет элемент равный data
+                if(head == Newposition){            // если элемент data находится в голове
+                    head = Newposition.next;        // то головой становится след. элемент
                 }else{
                     TimeNew.next = Newposition.next;
                 }
-                break; // прекращать проверку после удаления элемента
+                break;                              // прекращать проверку после удаления элемента
             }
             TimeNew = Newposition;
             Newposition = Newposition.next;
@@ -72,7 +72,7 @@ public class MyList
 
     }
 
-    public void print(){ // выводить элементы на экран
+    public void print(){                            // выводить элементы на экран
         New Newposition = head;
 
         if(head != null){
