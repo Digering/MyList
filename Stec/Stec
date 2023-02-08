@@ -1,3 +1,5 @@
+в данной программе было реализовано подобие стека
+
 public class Stec
 
     public static void main(String[] args) {
