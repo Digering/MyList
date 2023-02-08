@@ -1,4 +1,4 @@
-в данной программе было реализовано подобие стека
+<b>в данной программе было реализовано подобие стека<b/>
 
 public class Stec
 
@@ -21,6 +21,7 @@ public class Stec
 
         stec.print();
     }
+    
     
 public class MyStec
 
