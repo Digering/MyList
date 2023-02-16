@@ -1,8 +1,9 @@
 <b>в данной программе было реализовано подобие очереди</b>
 
-public class Main 
+public class Main
+
     public static void main(String[] args) {
-        <p>MyQueue queue = new MyQueue();</p>
+        MyQueue queue = new MyQueue();
         queue.Enqueue(2);
         queue.Enqueue(9);
         queue.Enqueue(12);
