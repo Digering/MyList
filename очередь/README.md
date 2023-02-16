@@ -2,7 +2,7 @@
 
 public class Main 
     public static void main(String[] args) {
-        MyQueue queue = new MyQueue();
+        <p>MyQueue queue = new MyQueue();</p>
         queue.Enqueue(2);
         queue.Enqueue(9);
         queue.Enqueue(12);
