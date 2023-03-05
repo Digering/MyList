@@ -61,7 +61,7 @@ public class BinaryTree {
 
     }
 
-    public void Add(int x){
+    public void Add(int x){                                         Добавляет элемент в дерево
         Tree Newroot = new Tree(x);
         num ++;
         if(root == null)
@@ -108,7 +108,7 @@ public class BinaryTree {
         }else
             System.out.println("NULL");
     }
-    public void Remove(int x){
+    public void Remove(int x){                                                  Удаляет первый узел с заданным значением x
         Tree Newposs = root;
         boolean y = false;
         boolean z = true;
@@ -191,7 +191,7 @@ public class BinaryTree {
         }
     }
 
-    public void Print(){
+    public void Print(){                                        выводит все элементы дерева
         int x= 0;
         Tree Newposs = root;
         Queue queue = new Queue();
@@ -226,13 +226,13 @@ public class BinaryTree {
             x++;
         }
     }
-    public int Count() {
+    public int Count() {                                        Возвращает количество узлов дерева или 0, если дерево пустое
         return num;
     }
-    public void Clear(){
+    public void Clear(){                                        Удаляет все узлы дерева
         root = null;
     }
-    public boolean Contains(int x){
+    public boolean Contains(int x){                             Возвращает true если x содержится в дереве. В противном случает возвращает false
         boolean y = true;
         if(root == null)
             y = false;
