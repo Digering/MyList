@@ -1,0 +1,25 @@
+public class Main {
+    public static void main(String[] args){
+        Person tom = new Person();
+        tom.info();
+        Person koil = new Person("Koil",15);
+        koil.info();
+    }
+}
+
+class Person{
+    private String name;
+    private int age;
+
+    Person(){
+        this("Non",10);
+    }
+    Person(String name, int age){
+        this.name = name;
+        this.age = age;
+    }
+
+    void info(){
+        System.out.printf("Name: %s age: %d\n",name,age);
+    }
+}
