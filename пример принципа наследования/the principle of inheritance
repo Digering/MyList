@@ -1,0 +1,39 @@
+public class Main {
+    public static void main(String[] args){
+        Phone phone = new Phone("DEXP C185", 850);
+        phone.info();
+        Poco poco = new Poco("C40 3+32GB Power Black", 6499, 6000);
+        poco.Poco();
+    }
+}
+
+class Phone{
+    private String name;
+    private int price;
+
+    Phone(){
+        this("Non",1);
+    }
+    Phone(String name, int price){
+        this.name = name;
+        this.price = price;
+    }
+
+    void info(){
+        System.out.printf("Name: %s age: %d р.\n",name,price);
+    }
+}
+
+class Poco extends Phone{
+    private int battery_capacity;
+
+    Poco(String name, int price, int battery_capacity){
+        super(name, price);
+        this.battery_capacity = battery_capacity;
+    }
+
+    void Poco(){
+        info();
+        System.out.printf("     hour: %d мА*ч\n",battery_capacity);
+    }
+}
