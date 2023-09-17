@@ -1,0 +1,72 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main{
+    public static void main(String[] args){
+
+        Heart heart = new Heart(40);
+        Human human = new Human(heart); //heart - обязательный параметр Human, без heart наш Human не существует - это композиция
+
+        System.out.println("pulse: " + human.getHeart().getPulse());
+        if(human.getRing() != null){
+            System.out.println("wearing rings: ");
+            for(Ring r: human.getRing())
+                System.out.println("\t" + r.getBrend());
+        }
+        else {System.out.println("wearing rings: 0");}
+
+        ArrayList<Ring> rings = new ArrayList<>();
+        rings.add(new Ring("Lisa"));
+        rings.add(new Ring("Ionis"));
+        rings.add(new Ring("Kartynal"));
+
+        human.wearing(rings);//можно оставить Human без Ring, а можно добавить, на его жизни это никак не повлияет - это агрегация
+
+        System.out.println("pulse: " + human.getHeart().getPulse());
+        if(human.getRing() != null){
+            System.out.println("wearing rings: ");
+            for(Ring r: human.getRing())
+                System.out.println("\t" + r.getBrend());
+        }
+        else {System.out.println("wearing rings: 0");}
+
+    }
+}
+
+class Human{
+
+    private Heart heart;
+    private List<Ring> ring = null;
+
+    Human(Heart heart){
+        this.heart = heart;
+    }
+
+    Heart getHeart(){
+        return heart;
+    }
+
+    List<Ring> getRing(){ return ring; }
+    void wearing(List<Ring> ring){
+        this.ring = ring;
+    }
+}
+
+class Heart{
+    private int pulse;
+
+    Heart(int x){pulse = x;}
+    int getPulse(){
+        return pulse;
+    }
+}
+
+class Ring{
+    private String brend;
+
+    Ring(String brend){
+        this.brend = brend;
+    }
+
+    String getBrend(){ return brend; }
+}
