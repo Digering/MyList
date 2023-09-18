@@ -1,0 +1,36 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        System.out.print("Добрый день, вы хотите рассчитать итоговое число(1) или найти процент(2): ");
+        Scanner scanner = new Scanner(System.in);
+        String scan = scanner.next(); 
+        if (scan.equals("1")) { //если выбрали первую функцию программы
+            System.out.printf("Введите 3 числа(начальная сумма, процентная ставка, на сколько лет) через пробел: ");
+            Scanner scann = new Scanner(System.in);
+            String chisla[] = scann.nextLine().split(" "); //разделяем числа по пробелу
+            float x = 1f + 0.01f * Float.parseFloat(chisla[1]);
+
+            for (int i = 1; i < Integer.parseInt(chisla[2].trim()); i++) //находим число в chisla[2] степени
+                x *= 1f + 0.01f * Float.parseFloat(chisla[1]);
+
+            System.out.printf("Итоговая сумма: %.2f", Float.parseFloat(chisla[0]) * x); //Вывод итоговой суммы
+            
+        } else if (scan.equals("2")) { //если выбрали вторую функцию программы
+            System.out.printf("Введите 3 числа(начальная сумма, итоговая сумма, через сколько лет) через пробел: ");
+            Scanner scanne = new Scanner(System.in);
+            String chisla2[] = scanne.nextLine().split(" "); //разделяем числа по пробелу
+            chisla2[1] = chisla2[1].replace(',','.');  // заменяет точку на запятую для чисел с плавающей точкой
+            float y = Float.parseFloat(chisla2[1]) / Float.parseFloat(chisla2[0]);
+
+            for (int i = 1; i < (1 / Integer.parseInt(chisla2[2].trim())); i++) //находим число в chisla[2] степени
+                y *= Float.parseFloat(chisla2[1]) / Float.parseFloat(chisla2[0]);
+
+            System.out.printf("Процентная ставка: %.2f", y - 1); //вывод процентной ставки
+            
+        }else //обработка исключительных ситуаций
+          System.out.printf("Должно быть вы ввели неверное число");
+
+    }
+}
