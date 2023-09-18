@@ -15,7 +15,9 @@ public class Main{
 }
 
 public abstract class Animal {
-    public abstract void eat();
+    public abstract void eat(){
+        System.out.println("животное ест");
+    }
 }
 
 public class Dog extends Animal{
