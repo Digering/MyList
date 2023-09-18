@@ -1,0 +1,30 @@
+import java.util.Random; \\ импортируем библиотеку для заполнения массива случайными числами
+
+public class Main {
+    public static void main(String[] args) {
+
+        Random r = new Random();
+        int[] myArray = new int[10];
+        for(int i = 0; i < 10; i++) \\ заполняем массив
+            myArray[i] = r.nextInt(99);
+        for(int p:myArray) { \\ выводим изначальный массив без сортировки
+            System.out.print(p + " ");
+        }
+
+        System.out.println(""); \\ переходим на следующую строчку
+
+            for(int i = 0; i < 10; i++) \\ сортируе массив
+                for(int j = 0, x; j < 9; j++){
+                    if (myArray[j] > myArray[j + 1]){
+                        x = myArray[j + 1];
+                        myArray[j + 1] = myArray[j];
+                        myArray[j] = x;
+                    }
+                }
+
+        for(int p:myArray) { \\ выводим изначальный массив после сортировки
+            System.out.print(p + " ");
+        }
+
+    }
+}
