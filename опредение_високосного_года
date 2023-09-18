@@ -1,0 +1,30 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        System.out.println("Вас приветствует программа для определения високосного года");
+        System.out.print("Введите 4 цыфры года: ");
+        Scanner scanner = new Scanner(System.in);
+        boolean t = true;
+        while (t){
+            String scan = scanner.next();
+            try {
+                if(scan.length() == 4){ \\ если пользователь ввел 4 цыфры
+                    float x = Float.parseFloat(scan);
+                    if(x%4 == 0 && x%400 == 0){
+                        System.out.println("Данный год является високосным");
+                    } else{
+                        System.out.println("Данный год не является високосным");
+                    }
+                    t = false; \\ если пользователь ввел 4 цыфры то программа завершится
+                }else
+                    System.out.print("Возможно вы ввели больше или меньше цыфр, попробуйте еще раз: "); \\ если пользователь ввел больше или меньше цыфр то программа запросил ввод повторно
+
+            }catch(Exception NumberFormatException){
+
+                System.out.print("Вводите цыры: ");  \\ если пользователь ввел билеберду то программа запросил ввод повторно
+            }
+        }
+    }
+}
