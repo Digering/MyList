@@ -1,0 +1,296 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Main {
+    public static void main(String[] args) {
+        new calcultr();
+    }
+}
+
+public class calcultr implements ActionListener {
+    double number, answer;
+    int calculation;
+
+    JFrame frame;
+    JLabel label = new JLabel(); //поле с текстом
+    JTextField textField = new JTextField();//поле для ввода текста
+
+    //создаем обьект кнопок
+    JButton buttonPlMin = new JButton("\u00B1");
+    JButton buttonZero = new JButton("0");
+    JButton buttonZap = new JButton(",");
+    JButton buttonRav = new JButton("=");
+    JButton button1 = new JButton("1");
+    JButton button2 = new JButton("2");
+    JButton button3 = new JButton("3");
+    JButton buttonPl = new JButton("+");
+    JButton button4 = new JButton("4");
+    JButton button5 = new JButton("5");
+    JButton button6 = new JButton("6");
+    JButton buttonMn = new JButton("-");
+    JButton button7 = new JButton("7");
+    JButton button8 = new JButton("8");
+    JButton button9 = new JButton("9");
+    JButton buttonYm = new JButton("x");
+    JButton buttonSqrt = new JButton("\u221Ax");
+    JButton buttonReciprocal = new JButton("1/x");
+    JButton buttonSquare = new JButton("x\u00B2");
+    JButton buttonPod = new JButton("/");
+    JButton buttonDel = new JButton("<=");
+    JButton buttonClear = new JButton("Del");
+
+    calcultr() {
+        prepareGUI(); //создание окна
+        addComponents(); //наполнение элементами
+        addActionEvent(); //наполнение функциями
+    }
+
+    public void prepareGUI() {
+        frame = new JFrame(); //создаем окно приложения
+        frame.setTitle("Калькулятор");//задаем название
+        frame.setSize(332, 475);//задаем размеры
+        frame.getContentPane().setLayout(null); //тказываемся от услуг "менеджеров управления размещением элементов"
+        frame.getContentPane().setBackground(Color.GRAY);//устанавливаем цвет фона
+        frame.setResizable(false);//запрещаем изменение размера
+        frame.setLocationRelativeTo(null);//приложение открывается в центре экрана
+        frame.setVisible(true);//окно приложения видемо
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//закрытие проложение при наж. на крестик
+    }
+    public void addComponents() {
+
+        label.setBounds(250, 0, 50, 50);//размер и расположение текстового поля
+        label.setForeground(Color.white);//цвет текстового поля
+        frame.add(label);//добавляем поле на окно программы
+
+        textField.setBounds(5, 40, 306, 60);//размер и расположение текстового поля
+        textField.setFont(new Font("Arial", Font.BOLD, 25));//шрифт текста в поле
+        textField.setEditable(false);//пользователь не может задавать текст в поле
+        textField.setHorizontalAlignment(SwingConstants.RIGHT);// выравнивание по правому краю
+        frame.add(textField);//добавляем поле на окно программы
+
+        //добавляем кнопки через доп.функцию для уменьшения кода
+        buttonX(buttonPlMin,2, 375, 78, 55, 1);
+
+        buttonX(buttonZero,80, 375, 78, 55, 1);
+
+        buttonX(buttonZap,158, 375, 78, 55, 1);
+
+        buttonX(buttonRav,236, 375, 78, 55, 0);
+
+        buttonX(button1,2, 320, 78, 55, 1);
+
+        buttonX(button2,80, 320, 78, 55, 1);
+
+        buttonX(button3,158, 320, 78, 55, 1);
+
+        buttonX(buttonPl,236, 320, 78, 55, 0);
+
+        buttonX(button4,2, 265, 78, 55, 1);
+
+        buttonX(button5,80, 265, 78, 55, 1);
+
+        buttonX(button6,158, 265, 78, 55, 1);
+
+        buttonX(buttonMn,236, 265, 78, 55, 0);
+
+        buttonX(button7,2, 210, 78, 55, 1);
+
+        buttonX(button8,80, 210, 78, 55, 1);
+
+        buttonX(button9,158, 210, 78, 55, 1);
+
+        buttonX(buttonYm,236, 210, 78, 55, 0);
+
+        buttonX(buttonSqrt,2, 155, 78, 55, 0);
+
+        buttonX(buttonReciprocal,80, 155, 78, 55, 0);
+
+        buttonX(buttonSquare,158, 155, 78, 55, 0);
+
+        buttonX(buttonPod,236, 155, 78, 55, 0);
+
+        buttonX(buttonClear,41, 110, 78, 40, 2);
+
+        buttonX(buttonDel,198, 110, 78, 40, 2);
+    }
+
+    //доп.функция для кнопок
+    private void buttonX(JButton button, int x, int y, int width, int height, int fon) {
+        button.setBounds(x, y, width, height); //расположение в программе
+        //условия для разных цветов: цвет фона кнопки, цвет шрифта в кнопке
+        if (fon == 1) {button.setBackground(Color.black); button.setForeground(Color.white);}
+        else if (fon == 2) {button.setBackground(Color.red); button.setForeground(Color.white);}
+        else {button.setBackground(Color.cyan);button.setForeground(Color.black);}
+        button.setFont(new Font("Arial", Font.BOLD, 20)); // задаем шрифт и его размер
+        frame.add(button); //вставляем кнопку в программу
+    }
+
+    public void addActionEvent() {
+        //Регистрация ActionListener для кнопок
+        buttonPlMin.addActionListener(this);
+        buttonZero.addActionListener(this);
+        buttonZap.addActionListener(this);
+        buttonRav.addActionListener(this);
+        button1.addActionListener(this);
+        button2.addActionListener(this);
+        button3.addActionListener(this);
+        buttonPl.addActionListener(this);
+        button4.addActionListener(this);
+        button5.addActionListener(this);
+        button6.addActionListener(this);
+        buttonMn.addActionListener(this);
+        button7.addActionListener(this);
+        button8.addActionListener(this);
+        button9.addActionListener(this);
+        buttonYm.addActionListener(this);
+        buttonSqrt.addActionListener(this);
+        buttonReciprocal.addActionListener(this);
+        buttonSquare.addActionListener(this);
+        buttonPod.addActionListener(this);
+        buttonDel.addActionListener(this);
+        buttonClear.addActionListener(this);
+    }
+
+    @Override //создание логики для кнопок
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == buttonClear) { //кнопка Clear
+            label.setText(""); // очистить окно свержу
+            textField.setText(""); // очистить окно ввода
+        }else if (e.getSource() == buttonDel) { //кнопка Del
+                int length = textField.getText().length(); //узнаем колличество элементов в окне
+                int number = length - 1;
+                if (length > 0) {
+                    StringBuilder back = new StringBuilder(textField.getText()); //берем текст
+                    back.deleteCharAt(number); // удалить последний элемент
+                    textField.setText(back.toString()); //вставляем измененный текст в окно
+
+                }
+                if (textField.getText().endsWith("")) { // если в окне ввода текст кончается на ""
+                    label.setText(""); // очистить окно свержу
+                }
+        } else if (e.getSource() == buttonZero) {
+            if (textField.getText().equals("0")) { // если текст это 0, то ничено не возвращать
+                return;
+            } else {
+                textField.setText(textField.getText() + "0"); //в другом случае добавляем 0
+            }
+        }else if (e.getSource() == button1) {
+            buttonVod("1");  // доп.функция для уменьшения кода
+        } else if (e.getSource() == button2) {
+            buttonVod("2");
+        } else if (e.getSource() == button3) {
+            buttonVod("3");
+        } else if (e.getSource() == button4) {
+            buttonVod("4");
+        } else if (e.getSource() == button5) {
+            buttonVod("5");
+        } else if (e.getSource() == button6) {
+            buttonVod("6");
+        } else if (e.getSource() == button7) {
+            buttonVod("7");
+        } else if (e.getSource() == button8) {
+            buttonVod("8");
+        } else if (e.getSource() == button9) {
+            buttonVod("9");
+        } else if (e.getSource() == buttonZap) {
+            // если в окно есть точка то не добавлять
+            if (textField.getText().contains(".")) {
+                return;
+            } else {
+                textField.setText(textField.getText() + "."); //в другом случае добавить точку
+            }
+        }else if (e.getSource() == buttonPl) {
+            operath(1, '+'); //доп.функция для уменьшения кода
+        } else if (e.getSource() == buttonMn) {
+            operath(2, '-');
+        } else if (e.getSource() == buttonYm) {
+            operath(3, 'x');
+        } else if (e.getSource() == buttonPod) {
+            operath(4, '/');
+        } else if (e.getSource() == buttonSqrt) { //находим корень квадратный
+            number = Double.parseDouble(textField.getText());
+            Double sqrt = Math.sqrt(number);
+            textField.setText(Double.toString(sqrt));
+
+        } else if (e.getSource() == buttonSquare) { //находим квадрат числа
+            String str = textField.getText();
+            number = Double.parseDouble(textField.getText()); //вписываем число в тип double
+            double square = Math.pow(number, 2); //возводим в квадрат
+            String string = Double.toString(square); //переводим в String
+            //если оканчивается на .0, то убираем его
+            if (string.endsWith(".0")) {
+                textField.setText(string.replace(".0", ""));
+            } else {
+                textField.setText(string);
+            }
+            label.setText("(sqr)" + str); //вписываем в верхнее окно написав для начала (sqr)
+        } else if (e.getSource() == buttonReciprocal) { // нажатие на 1/x
+            number = Double.parseDouble(textField.getText()); //вписываем число в тип double
+            double reciprocal = 1 / number; // делим 1 на число
+            String string = Double.toString(reciprocal); //переводим в String
+            //если оканчивается на .0, то убираем его
+            if (string.endsWith(".0")) {
+                textField.setText(string.replace(".0", ""));
+            } else {
+                textField.setText(string);
+            }
+        } else if (e.getSource() == buttonRav) { // нажатие на =
+            switch (calculation) {
+                case 1:
+                    answer = number + Double.parseDouble(textField.getText());
+                    if (Double.toString(answer).endsWith(".0")) {
+                        textField.setText(Double.toString(answer).replace(".0", ""));
+                    } else {
+                        textField.setText(Double.toString(answer));
+                    }
+                    label.setText("");
+                    break;
+                case 2:
+                    answer = number - Double.parseDouble(textField.getText());
+                    if (Double.toString(answer).endsWith(".0")) {
+                        textField.setText(Double.toString(answer).replace(".0", ""));
+                    } else {
+                        textField.setText(Double.toString(answer));
+                    }
+                    label.setText("");
+                    break;
+                case 3:
+                    answer = number * Double.parseDouble(textField.getText());
+                    if (Double.toString(answer).endsWith(".0")) {
+                        textField.setText(Double.toString(answer).replace(".0", ""));
+                    } else {
+                        textField.setText(Double.toString(answer));
+                    }
+                    label.setText("");
+                    break;
+                case 4:
+                    answer = number / Double.parseDouble(textField.getText());
+                    if (Double.toString(answer).endsWith(".0")) {
+                        textField.setText(Double.toString(answer).replace(".0", ""));
+                    } else {
+                        textField.setText(Double.toString(answer));
+                    }
+                    label.setText("");
+                    break;
+
+            }
+        }
+
+}
+    private void buttonVod(String number) {
+        // если в окне только 0, то заменяет на число
+        if (textField.getText().equals("0")) textField.setText(number);
+        else textField.setText(textField.getText() + number); // в другом случае просто добавляет
+    }
+    private void operath(int x, char y){
+        String str = textField.getText();
+        //переводим текст из окна в добл переменную для счета
+        number = Double.parseDouble(textField.getText());
+        textField.setText(""); //очистить окно ввода
+        label.setText(str + y); //добавить текст в окно сверху и добавим выбранную перацию
+        calculation = x; //отмечаем выбранную операцию
+    }
+
+}
