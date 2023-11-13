@@ -1,0 +1,71 @@
+package com.mycompany.carts;
+import java.util.ArrayList;
+import java.util.List;      /импортируем список
+import java.util.Random;      /импортируем рандомайзер
+
+public class Carts {  / создаем родительский класс карты
+
+    public static void main(String[] args) { 
+        Random rand = new Random();              / объявляем переменную для рандомизации в дальнейшем 
+        List<String> colods = new ArrayList();  / создаем колоду карт
+        while(colods.size()<36){                / заполняем ее пока она не бкдет иметь 36 карт
+            char mast;                          /отвечает за масть заполняемых карт 
+            if(colods.size()<1){                / сначала заполняем карты с мастью пики
+                mast = 'p';
+            }else if(colods.size()<10){        /затем заполняем с мастью треф
+                mast = 't';
+            }else if(colods.size()<19){        /затем заполняем с мастью черви
+                mast = 'c';
+            }else{                              /и в конце заполняем с мастью буби
+                mast = 'b';
+            }
+                                                /заполняем карты с определенной мастью
+                colods.add(mast+"_6");
+                colods.add(mast+"_7");
+                colods.add(mast+"_8");
+                colods.add(mast+"_9");
+                colods.add(mast+"_10");
+                colods.add(mast+"_J");
+                colods.add(mast+"_D");
+                colods.add(mast+"_K");
+                colods.add(mast+"_A");
+        }
+        for(int i = 0; i<colods.size();i++){ /выводим не перемешанную колоду в консоль
+            System.out.print(colods.get(i)+" ");
+        }
+        System.out.print("\n");
+        for(int q=0;q<colods.size();q++){  /для 2-ного перемешивания колоды
+            for(int i=0;i<colods.size();i++){
+            int rand_1= rand.nextInt(colods.size());  /берем рандомное число из количества карт
+            String cart_2 = colods.get(rand_1);      /создаем рандомную карту из колоды
+            colods.add(cart_2);                      /добавляем ее в начало колоды
+            colods.remove(rand_1);                  /удаляем эту карту в начале колоды
+        }
+        }
+        
+        for(int i = 0; i<colods.size();i++){      /выводим в консоль перемешанную колоду
+            System.out.print(colods.get(i)+" ");
+        }
+        System.out.print("\nКоличество карт в колоде:"+ colods.size());/смотрим на начальное количество карт в колоде, их 36
+        System.out.print("\nВам выдаются 6 карт:\n");                  
+        String[] rand_cart = new String [6];                          /создаем массив отвечающий за руку
+        int carts = colods.size()-1;                                  /запоминаем максимальное количество карт-1
+        for(int i=0;i<6;i++){                                        /заполняем руку 6-ю картами
+                int rand_1 = rand.nextInt(carts);                    /берем рандомное число из числа оставшихся карт в колоде
+            rand_cart[i] = colods.get(rand_1);                       /берем в руку карту с этим числом
+            colods.remove(rand_1);                                   /удаляем карту из колоды
+            carts -= 1;                                              /уменьшаем количество карт в колоде на 1
+    }
+        for (String rand_cart1 : rand_cart) {                        /выводим карты что лежат в руке в консоль
+                System.out.print(rand_cart1 + " ");
+           }
+        System.out.print("\nКоличество карт в колоде:"+ colods.size()+" \n");  /смотрим на конечное количество карт в колоде, их 30
+        System.out.print("Возврат карт в колоду\n");
+        
+        for (String rand_cart1 : rand_cart) {                                 /возвращаем карты из руки в колоду
+                colods.add(rand_cart1);
+           }
+        rand_cart=null;                                                      /опусташаем руку
+        System.out.print("Количество карт в колоде:"+ colods.size()+" \n");/смотрим на количество карт в колоде, их 36
+}
+}
