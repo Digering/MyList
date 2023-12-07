@@ -1,0 +1,79 @@
+Файл Scratch
+class Scratch {
+        public static void main(String[] args) {
+                Parse parse = new Parse();
+                parse.parseXML("C:\\Users\\DeX\\Desktop\\Main.xml");
+        }
+}
+ файл Parse
+ import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+public class Parse {
+
+    public void parseXML(String filePath) {
+        try {
+            // Создаем фабрику для создания парсера
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            // Загружаем XML-файл
+            Document document = builder.parse(filePath);
+
+            // Создаем корневой узел для JTree
+            DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(document.getDocumentElement().getNodeName());
+            DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
+
+            // Рекурсивно обрабатываем узлы XML-документа
+            processNode(document.getDocumentElement(), rootNode);
+
+            // Создаем JTree и отображаем его
+            JTree tree = new JTree(treeModel);
+            JScrollPane scrollPane = new JScrollPane(tree);
+            JFrame frame = new JFrame("XML Viewer");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.add(scrollPane);
+            frame.pack();
+            frame.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void processNode(Node node, DefaultMutableTreeNode parentNode) {
+        if (node.getNodeType() == Node.ELEMENT_NODE) {
+            // Создаем узел JTree для текущего элемента XML
+            DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(node.getNodeName());
+            parentNode.add(treeNode);
+
+            // Обрабатываем атрибуты элемента
+            if (node.hasAttributes()) {
+                NamedNodeMap attributes = node.getAttributes();
+                for (int i = 0; i < attributes.getLength(); i++) {
+                    Node attribute = attributes.item(i);
+                    treeNode.add(new DefaultMutableTreeNode(attribute.getNodeName() + " = " + attribute.getNodeValue()));
+                }
+            }
+
+            // Обрабатываем дочерние элементы
+            NodeList children = node.getChildNodes();
+            for (int i = 0; i < children.getLength(); i++) {
+                processNode(children.item(i), treeNode);
+            }
+        } else if (node.getNodeType() == Node.TEXT_NODE) {
+            // Обрабатываем текстовое содержимое элемента
+            String text = node.getTextContent().trim();
+            if (!text.isEmpty()) {
+                parentNode.add(new DefaultMutableTreeNode(text));
+            }
+        }
+    }
+}
