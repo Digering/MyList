@@ -1,0 +1,123 @@
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+public class TextEditor extends JFrame {
+
+    private JTextArea textArea;
+    private JMenuBar menuBar;
+    private JMenu fileMenu;
+    private JMenuItem openMenuItem;
+    private JMenuItem saveMenuItem;
+
+    public TextEditor() {
+        super("Текстовый редактор");
+
+        // Устанавливаем графическую схему оформления
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                 | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+
+        // Создаем текстовое поле
+        textArea = new JTextArea();
+
+        // Создаем панель для текстового поля
+        JPanel textPanel = new JPanel(new BorderLayout());
+        textPanel.add(new JScrollPane(textArea), BorderLayout.CENTER);
+        add(textPanel);
+
+        // Создаем панель меню
+        menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+
+        // Создаем меню "Файл"
+        fileMenu = new JMenu("Файл");
+        menuBar.add(fileMenu);
+
+        // Создаем пункты меню "Открыть" и "Сохранить"
+        openMenuItem = new JMenuItem("Открыть");
+        saveMenuItem = new JMenuItem("Сохранить");
+        fileMenu.add(openMenuItem);
+        fileMenu.add(saveMenuItem);
+
+        // Устанавливаем действия для пунктов меню
+        openMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openFile();
+            }
+        });
+
+        saveMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveFile();
+            }
+        });
+
+        // Устанавливаем размеры окна и делаем его видимым
+        setSize(800, 600);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    private void openFile() {
+        JFileChooser fileChooser = new JFileChooser();
+
+        // Ограничиваем выбор файлов только текстовыми файлами
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Текстовые файлы", "txt");
+        fileChooser.setFileFilter(filter);
+
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                StringBuilder text = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    text.append(line).append("\n");
+                }
+
+                textArea.setText(text.toString());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Ошибка при открытии файла", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private void saveFile() {
+        JFileChooser fileChooser = new JFileChooser();
+
+        // Ограничиваем сохранение файлов только текстовыми файлами
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Текстовые файлы", "txt");
+        fileChooser.setFileFilter(filter);
+
+        int result = fileChooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                writer.write(textArea.getText());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Ошибка при сохранении файла", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        new TextEditor();
+    }
+
+}
