@@ -1,0 +1,214 @@
+import tkinter
+from tkinter import *
+
+root = Tk()
+root.title("Калькулятор") # название окна
+
+photo = tkinter.PhotoImage(file="Sprits\калькулятор.png") # меняем иконку программы
+root.iconphoto(False, photo) # иконка для приложения
+
+root.geometry("510x600") # размер окна
+root.maxsize(510, 608)
+root.minsize(510, 608)
+
+# создание верхнего поля ввода
+name2 = tkinter.Entry(root, font=("arial", 18), fg ="#626262" ,background="#C0C0C0", justify=RIGHT, border = 0)
+name2.grid(row=0,column=1,columnspan=4,stick='we', ipady=5)
+# сощдание нижнего поля ввода
+name = tkinter.Entry(root, font=("arial", 30),  background="#C0C0C0", justify=RIGHT, border = 0)
+name.grid(row=1,column=0,columnspan=5,stick='we', ipady=6)
+name.insert(100, "0") #вставка в поле ввода номера 0
+
+# выделение памяти
+loadimage = [i for i in range(30)]
+butt = [i for i in range(30)]
+q=0
+r=1
+# вставка изображений кнопок
+for i in range(0,24,5):
+    r+=1
+    for j in range(0,5):
+        if i+j == 22:
+            q+=1
+        loadimage[i+j] = tkinter.PhotoImage(file=f"Sprits\{i+j+q}.png")
+        butt[i+j] = tkinter.Button(root, image=loadimage[i+j], command=lambda m=i+j: kalk(m), text=i+j, state=tkinter.NORMAL, border = "0")
+        # вставка изображения на нужное место
+        butt[i+j].grid(row=r,column=j+q) if i+j != 21 else butt[i+j].grid(row=r, column=j, columnspan=2, stick="we")
+
+# вставка кнопки с именем
+loadimage[25] = tkinter.PhotoImage(file=f"Sprits\{25}.png")
+butt[25] = tkinter.Button(root,image=loadimage[25], command=lambda m=25: kalk(m), text=25, state=tkinter.NORMAL, border = "0", pady=-100, background="#C0C0C0")
+butt[25].grid(row=0,column=0, stick="nesw")
+
+def kalk(x):
+    kalk2(name.get(), x, 0)
+
+def oshib(x):
+    name.delete(0, tkinter.END)
+    name.insert(100, x)
+    for i in range(0, 25):
+        if i != 1:
+            butt[i]['state'] = tkinter.DISABLED
+
+def while_1(i, name_2, num3, q):
+    x = i - 1
+    while (name_2[x] == ')' and x != -1 or name_2[x] == '1' or name_2[x] == '2' or name_2[x] == '3' or name_2[x] == '4' or name_2[x] == '5' \
+        or name_2[x] == '6' or name_2[x] == '7' or name_2[x] == '8' or name_2[x] == '9' or name_2[x] == '0' or q != 0 or name_2[x] == '!' and x != -1):
+        q = skobki(name_2[x], q)
+        if x >= 0:
+            num3 += name_2[x]
+        x -= 1
+    x += 1
+    while x < 0:
+        x += 1
+    num3 = num3[::-1]
+    num3 = kalk2(num3, 23, 1)
+    return num3, x
+
+# функция вычисления скобки
+def skobki(s, q):
+    if s == '(':
+        q += 1
+    elif s == ')':
+        q -= 1
+    return q
+
+def kalk2(name_2, x, r):
+
+# нажали на кнопки имени
+    if x == 25:
+        name2.delete(0, tkinter.END)
+        name2.insert(100, "Барашевский А.А.")
+
+    elif name_2[0] == "0":
+         name.delete(0, tkinter.END)
+
+# присваивание каждой кнопке своего имени для поля ввода
+    switcher = {0: "sin(", 4: "/",
+                5: "cos(", 6: "7", 7: "8", 8: "9", 9: "*",
+                10: "tan(", 11: "4", 12: "5", 13: "6", 14: "-",
+                15: "^", 16: "1", 17: "2", 18: "3", 19: "+",
+                20: "\/(", 21: "0", 22: ".",}
+
+# если нажали на С
+    if x==1:
+        name2.delete(0, tkinter.END)
+        name['state'] = tkinter.NORMAL
+        name.delete(0, tkinter.END)
+        name.insert(100, "0")
+        for i in range(0, 25): # все цифры становятся активными
+            butt[i]['state'] = tkinter.NORMAL
+
+    elif x == 23: # это =
+
+        if r!=1 :
+            name2.delete(0, tkinter.END)
+            name2.insert(100, name_2 + "=")
+
+        num = name_2# создаем копию нижнего поля ввода для точности проверки
+        y = q = 0
+        num2 = num3 = ''
+        for i in range(len(name_2)):# проверяем каждую букву
+            # если встретились значения tan, cot, sin...
+            if (name_2[i] == 's' and num[i] == 's' and name_2[i+1] == 'i' and num[i+1] == 'i' or name_2[i] == 'c' and num[i] == 'c' and name_2[i+1] == 'o' and num[i+1] == 'o' or name_2[i] == 't' and num[i] == 't' and name_2[i+1] == 'a' and num[i+1] == 'a')\
+                and name_2[i+4] != 'r' and num[i+4] != 'r':
+                x = i + 3 # получаем начало значения которое нужно приобразовать в tan, cot, sin
+                while (name_2[x] != ')' or q != 0):# получаем открывающую скобку и всё значение которое нужно приобразовать в tan, cot, sin
+                    q = skobki(name_2[x], q)
+                    if q != 0:
+                        num2 = num2 + num[x + y:x + y + 1]
+                        x += 1
+                z = x + 1# пропускаем значение скобки
+                num2 = num2 + ')'# заносим это значение в элимент с полным значением
+                # если встеченное значение cos и хранит значение 90
+                if (name_2[i] == 'c'and name_2[i+1] == 'o') and num2 == '(90)':
+                    # то вставляем 0 в итоговое уравнение
+                    num = ''.join([num[:i + y], '0',num[i + y+z:]])
+                # иначе вставляем в место скобки со значением слово (radians
+                else:
+                    num = ''.join([num[:i + 3 + y], '(radians', num2,")",num[i + y+z:]])
+                    y+=9
+                print(num)# проверяем что получили
+                num = kalk2(num, 23, 1)# решаем полученное уравнение
+
+            # если мы возводим число в стемень
+            if name_2[i] == '^' and num[i] == '^':
+                num = ''.join([num[:i+y], '**', num[i+1+y:]])
+                y += 1
+                num = kalk2(num, 23, 1)# решаем полученное уравнение
+            # если ставим под корень
+            elif name_2[i] == '\\' and name_2[i+1] == '/' and num[i] == '\\' and num[i+1] == '/':
+                x = i + 2
+                while(name_2[x] != ')' or q !=0):# получаем открывающую скобку и всё значение
+                    q = skobki(name_2[x], q)
+                    if q != 0:
+                        num2 = num2 + num[x+y:x+y+1]
+                        x += 1
+                z = x+1
+                num2 = num2 + ')'
+                print(num2)
+                num2 = kalk2(num2, 23, 1)# решаем полученное уравнение
+
+                # если перед корнем нет чисел
+                if i == 0 or name_2[i-1] == '(' or name_2[i-1] == '*' or name_2[i-1] == '+' or name_2[i-1] == '-' or name_2[i-1] == '/':
+                    num = ''.join([num[:i + y], "(", num2, '**(1/', '2', "))", num[i + 5 + y+len(num2)-2:]])
+                # если корню присвоена степень
+                else:
+                    num3, x = while_1(i, name_2, num3, q)
+                    num = ''.join([num[:x+y], "(", num2, '**(1/', num3, "))", num[z+y:]])
+        try:
+            # если уравнение заканчивается лишней скобкой, то скобка убирается
+            for z in num:
+                q = skobki(z, q)
+            if q != 0:
+                num = num[:-1]
+            print(num, '=', eval(num))# вываодим итоговый результат в консоль
+            name.delete(0, tkinter.END)
+            if eval(num) == 1.633123935319537e+16:
+                oshib('ERROR')
+            else:
+                name.insert(100, int(eval(num)) if float(eval(num)).is_integer() else (int(eval(num) * 100000) / 100000))
+        except ZeroDivisionError:
+            oshib('Деление на ноль')
+        except OverflowError:
+            oshib('Слишком большое число')
+        except TypeError:
+            oshib('ERROR')
+        except SyntaxError:
+            oshib('ERROR')
+        except NameError:
+            oshib('ERROR')
+
+# если вы нажали на delete
+    elif x == 3:
+        q = name.get()# значение нижнего поля вставляем в отдельный элемент q
+        name.delete(0, tkinter.END)# удаляем значение в нижнем поле ввода
+        name.insert(100, "0") if len(q)==1 or len(q)==0 else name.insert(100, q[:-1])
+        # если в нижнем поле вводе 1 или 0 элементов то пишем 0, либо значение на 1 меньше чем в q
+
+# если нажали на скобку
+    elif x == 2:
+        q = 0
+        #если в нижнем поле ввода есть открывающая скобка, и нет закрывающей, то q будет 1
+        for i in name_2:
+            q = skobki(i, q)
+        name.insert(100, ')') if q else name.insert(100, '(')
+        # если q=1 то ставим ), если q=0 то ставим ) в нижнее поле ввода
+
+# если нажали на sin, cos, tan и поле состоит из цифр и не = 0
+    elif (x == 0 or x == 5 or x == 10) and name_2.isdigit() and name_2 != '0':
+        name.insert(0, switcher[x])# пишем соответсвующую операцию
+        name.insert(100, ')')# закрываем скобкой
+
+# пишем соответсвующую цифру
+    else:
+        name.insert(100, switcher[x])
+
+# если количество значейний в нижнем поле ввода >= 2 то поле станет неактивным
+    if len(name.get()) >= 28:
+        name['state'] = tkinter.DISABLED
+
+    if r:
+        return num
+
+root.mainloop()
